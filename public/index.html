@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SilverPay - Unified Wallet</title>
+  <link rel="stylesheet" href="/src/style.css">
+</head>
+<body>
+  <div class="app">
+    <header>
+      <h1>SilverPay</h1>
+      <div class="wallet-status" id="wallet-status">
+        <span class="network-name" id="wallet-name">BTCS L2 Local</span>
+        <span class="address" id="wallet-address">Connect wallet</span>
+      </div>
+    </header>
+    
+    <main>
+      <section class="balances">
+        <h2>Balances</h2>
+        <div class="balance-item" id="native-balance">0 BTCS</div>
+        <div class="token-balances" id="token-balances"></div>
+      </section>
+      
+      <section class="tokens">
+        <h2>Tokens</h2>
+        <div class="token-list" id="token-list"></div>
+      </section>
+      
+      <section class="nfts">
+        <h2>NFTs</h2>
+        <div class="nft-list" id="nft-list"></div>
+      </section>
+      
+      <section class="transactions">
+        <h2>Recent Transactions</h2>
+        <div class="tx-list" id="tx-list"></div>
+      </section>
+    </main>
+    
+    <footer>
+      <button class="connect-wallet" id="connect-wallet">Connect Wallet</button>
+    </footer>
+  </div>
+  <script type="module" src="/src/index.js"></script>
+</body>
+</html>

@@ -1,0 +1,254 @@
+/* SilverPay - Unified Wallet Styles */
+
+/* App Container */
+.app {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Header */
+header {
+  background: #f8f9fa;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header h1 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #2d3748;
+  margin: 0;
+}
+
+/* Wallet Status */
+.wallet-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.network-name {
+  color: #48bb78;
+  font-weight: 500;
+}
+
+.address {
+  color: #718096;
+  font-size: 0.875rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+
+/* Balances Section */
+.balances {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.balance-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.balance-item:last-child {
+  border-bottom: none;
+}
+
+.token-symbol {
+  color: #48bb78;
+  font-weight: 500;
+}
+
+/* Token List */
+.token-list {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.token-item {
+  background: white;
+  border-radius: 6px;
+  padding: 0.75rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.token-name {
+  font-weight: 500;
+  color: #2d3748;
+}
+
+.token-symbol {
+  color: #e53e3e;
+  font-weight: 600;
+}
+
+.token-amount {
+  color: #718096;
+}
+
+/* NFT List */
+.nft-list {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.nft-item {
+  background: white;
+  border-radius: 6px;
+  padding: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.nft-image {
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.nft-info {
+  flex: 1;
+}
+
+.nft-name {
+  font-weight: 500;
+  color: #2d3748;
+  font-size: 0.875rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 120px;
+}
+
+.nft-details {
+  color: #718096;
+  font-size: 0.75rem;
+}
+
+.nft-txid {
+  color: #e2e8f0;
+  font-size: 0.75rem;
+  word-break: break-all;
+}
+
+/* Transaction List */
+.tx-list {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.tx-item {
+  background: white;
+  border-radius: 6px;
+  padding: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  font-size: 0.875rem;
+}
+
+.tx-status-confirmed {
+  color: #48bb78;
+}
+
+.tx-status-pending {
+  color: #f6e05e;
+}
+
+.tx-status-failed {
+  color: #f56565;
+}
+
+/* Connect Wallet Button */
+footer {
+  text-align: center;
+  padding-top: 1rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.connect-wallet {
+  background: #42b983;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.connect-wallet:hover {
+  background: #38a16f;
+}
+
+/* Status Message */
+.status-message {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 0.75rem 1.25rem;
+  border-radius: 6px;
+  background: #e2e8f0;
+  color: #2d3748;
+  font-size: 0.875rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: opacity 0.3s;
+  opacity: 0;
+  z-index: 1000;
+}
+
+.status-message.visible {
+  opacity: 1;
+}
+
+.status-message.error {
+  background: #f56565;
+  color: white;
+}
+
+.status-message.success {
+  background: #48bb78;
+  color: white;
+}
+
+.status-message.info {
+  background: #42b983;
+  color: white;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .app {
+    padding: 10px;
+  }
+  
+  header {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .wallet-status {
+    margin-top: 0.5rem;
+  }
+}
