@@ -3,46 +3,198 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SilverPay - Unified Wallet</title>
+  <meta name="color-scheme" content="dark light">
+  <title>SilverPay — BTCS L2 local development wallet</title>
+  <meta name="description" content="SilverPay browser wallet for the local BTCS L2 development network. Non-custodial: signing is delegated to an injected wallet.">
   <link rel="stylesheet" href="/src/style.css">
 </head>
 <body>
-  <div class="app">
-    <header>
-      <h1>SilverPay</h1>
-      <div class="wallet-status" id="wallet-status">
-        <span class="network-name" id="wallet-name">BTCS L2 Local</span>
-        <span class="address" id="wallet-address">Connect wallet</span>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">S</span>
+      <div>
+        <h1>SilverPay</h1>
+        <p class="tagline">BTCS L2 local development wallet</p>
       </div>
-    </header>
-    
-    <main>
-      <section class="balances">
-        <h2>Balances</h2>
-        <div class="balance-item" id="native-balance">0 BTCS</div>
-        <div class="token-balances" id="token-balances"></div>
-      </section>
-      
-      <section class="tokens">
-        <h2>Tokens</h2>
-        <div class="token-list" id="token-list"></div>
-      </section>
-      
-      <section class="nfts">
-        <h2>NFTs</h2>
-        <div class="nft-list" id="nft-list"></div>
-      </section>
-      
-      <section class="transactions">
-        <h2>Recent Transactions</h2>
-        <div class="tx-list" id="tx-list"></div>
-      </section>
-    </main>
-    
-    <footer>
-      <button class="connect-wallet" id="connect-wallet">Connect Wallet</button>
-    </footer>
-  </div>
+    </div>
+    <div class="network-chip" id="network-chip" data-state="checking">
+      <span class="dot" aria-hidden="true"></span>
+      <span id="network-chip-label">Checking node…</span>
+    </div>
+  </header>
+
+  <main id="main">
+    <p class="banner" id="global-banner" role="alert" hidden></p>
+
+    <section class="card" aria-labelledby="network-heading">
+      <div class="card-head">
+        <h2 id="network-heading">Network</h2>
+        <button type="button" class="btn btn-quiet" id="refresh-node">Refresh</button>
+      </div>
+      <dl class="facts">
+        <div><dt>Profile</dt><dd id="fact-profile">BTCS L2 Local Development</dd></div>
+        <div><dt>Chain ID</dt><dd id="fact-chain">—</dd></div>
+        <div><dt>Client</dt><dd id="fact-client">—</dd></div>
+        <div><dt>Block height</dt><dd id="fact-block">—</dd></div>
+        <div><dt>RPC endpoint</dt><dd id="fact-rpc">—</dd></div>
+        <div><dt>Last checked</dt><dd id="fact-updated">never</dd></div>
+      </dl>
+      <p class="hint" id="node-note">The local node is identified by chain ID 31337 and a <code>BTCSL2/</code> client banner before any balance is shown.</p>
+    </section>
+
+    <section class="card" aria-labelledby="account-heading">
+      <div class="card-head">
+        <h2 id="account-heading">Account</h2>
+        <span class="pill" id="account-mode">Not connected</span>
+      </div>
+
+      <div id="account-empty">
+        <p>Connect an injected EVM wallet to sign, or watch any address read-only. SilverPay never asks for a private key or seed phrase.</p>
+        <div class="row">
+          <button type="button" class="btn btn-primary" id="connect-wallet">Connect wallet</button>
+        </div>
+        <p class="hint" id="wallet-availability"></p>
+        <form id="watch-form" class="inline-form" novalidate>
+          <label for="watch-address">Watch an address</label>
+          <div class="row">
+            <input id="watch-address" name="watch-address" type="text" autocomplete="off" spellcheck="false" placeholder="0x…" aria-describedby="watch-error">
+            <button type="submit" class="btn">Watch</button>
+          </div>
+          <p class="error" id="watch-error" role="alert"></p>
+        </form>
+      </div>
+
+      <div id="account-details" hidden>
+        <div class="address-line">
+          <code id="account-address">—</code>
+          <button type="button" class="btn btn-quiet" id="copy-address">Copy</button>
+        </div>
+        <p class="balance" id="account-balance">—</p>
+        <p class="hint" id="account-source"></p>
+        <div class="row">
+          <button type="button" class="btn btn-quiet" id="disconnect-wallet">Disconnect</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="send-heading">
+      <div class="card-head">
+        <h2 id="send-heading">Send</h2>
+        <span class="pill" id="send-readiness">Connect a wallet to send</span>
+      </div>
+
+      <p class="banner" id="send-compat" role="status" hidden></p>
+
+      <form id="send-form" novalidate>
+        <label for="send-asset">Asset</label>
+        <select id="send-asset"></select>
+
+        <label for="send-to">Recipient address</label>
+        <input id="send-to" type="text" autocomplete="off" spellcheck="false" placeholder="0x…" aria-describedby="send-to-error">
+        <p class="error" id="send-to-error" role="alert"></p>
+
+        <label for="send-amount">Amount</label>
+        <input id="send-amount" type="text" inputmode="decimal" autocomplete="off" placeholder="0.0" aria-describedby="send-amount-error send-amount-hint">
+        <p class="hint" id="send-amount-hint"></p>
+        <p class="error" id="send-amount-error" role="alert"></p>
+
+        <div class="row">
+          <button type="submit" class="btn btn-primary" id="send-review">Review transaction</button>
+        </div>
+      </form>
+
+      <div id="send-review-panel" class="review" hidden>
+        <h3>Review before signing</h3>
+        <dl class="facts">
+          <div><dt>From</dt><dd id="review-from">—</dd></div>
+          <div><dt>To</dt><dd id="review-to">—</dd></div>
+          <div><dt>Amount</dt><dd id="review-amount">—</dd></div>
+          <div><dt>Gas limit</dt><dd id="review-gas">—</dd></div>
+          <div><dt>Max fee per gas</dt><dd id="review-fee-rate">—</dd></div>
+          <div><dt>Maximum network fee</dt><dd id="review-fee">—</dd></div>
+          <div><dt>Network</dt><dd id="review-network">—</dd></div>
+        </dl>
+        <p class="hint">Your wallet will show its own confirmation. The maximum fee is a ceiling, not a charge.</p>
+        <div class="row">
+          <button type="button" class="btn btn-primary" id="send-confirm">Confirm in wallet</button>
+          <button type="button" class="btn btn-quiet" id="send-cancel">Cancel</button>
+        </div>
+      </div>
+
+      <div class="tx-status" id="send-status" role="status" aria-live="polite" hidden>
+        <p id="send-status-text"></p>
+        <p class="hint" id="send-status-hint"></p>
+        <p class="mono" id="send-status-hash"></p>
+        <div class="row" id="send-status-actions" hidden>
+          <button type="button" class="btn" id="send-recheck">Re-check transaction</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="receive-heading">
+      <div class="card-head">
+        <h2 id="receive-heading">Receive</h2>
+      </div>
+      <p id="receive-empty">Connect a wallet or watch an address to display a receiving address.</p>
+      <div id="receive-details" hidden>
+        <p class="mono" id="receive-address"></p>
+        <div class="row">
+          <button type="button" class="btn" id="copy-receive">Copy address</button>
+        </div>
+        <p class="hint">This address only exists on the local BTCS L2 development chain. Do not send real assets to it.</p>
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="tokens-heading">
+      <div class="card-head">
+        <h2 id="tokens-heading">Tokens</h2>
+        <button type="button" class="btn btn-quiet" id="refresh-tokens">Refresh balances</button>
+      </div>
+      <form id="token-form" class="inline-form" novalidate>
+        <label for="token-address">Track an ERC-20 token by contract address</label>
+        <div class="row">
+          <input id="token-address" type="text" autocomplete="off" spellcheck="false" placeholder="0x…" aria-describedby="token-error">
+          <button type="submit" class="btn">Add token</button>
+        </div>
+        <p class="error" id="token-error" role="alert"></p>
+      </form>
+      <ul class="list" id="token-list"></ul>
+      <p class="hint" id="token-empty">No tracked tokens. Only ERC-20 balances are supported; NFT display is not implemented.</p>
+    </section>
+
+    <section class="card" aria-labelledby="history-heading">
+      <div class="card-head">
+        <h2 id="history-heading">Recent activity</h2>
+        <button type="button" class="btn btn-quiet" id="refresh-history">Scan blocks</button>
+      </div>
+      <p class="hint" id="history-note">History is a bounded scan of recent canonical blocks. It is not an indexer.</p>
+      <ul class="list" id="history-list"></ul>
+      <p class="empty" id="history-empty">No activity in the scanned range.</p>
+    </section>
+
+    <section class="card" aria-labelledby="limits-heading">
+      <div class="card-head">
+        <h2 id="limits-heading">Not supported</h2>
+      </div>
+      <ul class="limits">
+        <li>Networks other than the local BTCS L2 development chain (31337).</li>
+        <li>NFT display, token deployment, swaps, and payments.</li>
+        <li>Importing or generating seed phrases or private keys.</li>
+        <li>Account recovery, address books, and multi-account switching beyond the injected wallet.</li>
+        <li>Full transaction history, finality, and settlement guarantees.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Non-custodial local development prototype. Not a production wallet, and no real-value network is supported.</p>
+    <p><a href="https://github.com/Silver-Labs-Technology-Development/silver-wallet">Source repository</a></p>
+  </footer>
+
+  <div class="toast" id="status-message" role="status" aria-live="polite" hidden></div>
+
   <script type="module" src="/src/index.js"></script>
 </body>
 </html>
