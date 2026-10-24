@@ -36,7 +36,7 @@ real-value use.
 
 Do not open a public issue for a vulnerability. Report it privately to the
 Silver Labs repository owner through GitHub's private vulnerability reporting
-on <https://github.com/Silver-Labs-Technology-Development/silver-wallet> if it
+on <https://github.com/Silver-Labs-Technology-Development/SilverPay> if it
 is enabled, or contact the organization owner directly. Do not include secrets,
 keys, or live wallet data in a report.
 
