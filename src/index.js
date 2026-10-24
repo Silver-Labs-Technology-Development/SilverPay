@@ -1,5 +1,6 @@
 import { BrowserProvider, ethers } from 'ethers'
 import { BTCS_L2_LOCAL, NETWORK_IDENTITY_SCHEMA_VERSION, validateNetworkIdentity } from './btcs-l2-client/index.js'
+import { networks } from './networks.js'
 import { readTokenBalance, formatTokenBalance, getTokenSymbolByDecimals, validateTokenContract } from './token-management.js'
 import { readNFTMetadata, formatNFTDisplay, validateNFTContract } from './nft-management.js'
 
@@ -17,8 +18,6 @@ const state = {
 
 const element = (id) => document.getElementById(id)
 
-// Initialize networks from the btcs-l2-client import
-import networks from './networks.js'
 state.networks = networks
 
 function getNetwork() {

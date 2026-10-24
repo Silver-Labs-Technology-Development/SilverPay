@@ -1,6 +1,9 @@
 // Token Management for SilverPay
 // Handles ERC-20 token balance reading and display
 
+import { BrowserProvider, ethers } from 'ethers'
+import { networks, defaultNetworkId } from './networks.js'
+
 /**
  * Read ERC-20 token balance for a given address
  * @param {string} tokenAddress - Token contract address
@@ -8,7 +11,7 @@
  * @returns {Promise<Object>} {balance, decimals, symbol, name}
  */
 export async function readTokenBalance(tokenAddress, userAddress) {
-  const network = getNetwork()
+  const network = networks[defaultNetworkId]
   if (!userAddress || network.family !== 'evm') {
     return { balance: 0n, decimals: 18, symbol: '', name: '' }
   }
@@ -54,8 +57,9 @@ export async function readTokenBalance(tokenAddress, userAddress) {
 export function formatTokenBalance(balance, decimals) {
   if (balance === 0n) return '0'
 
-  const whole = Number(balance / (10n ** decimals)).toString()
-  const fractional = Number(balance % (10n ** decimals))
+  const whole = Number(balance / (10n ** BigInt(decimals))).toString()
+  if (decimals === 0) return whole
+  const fractional = Number(balance % (10n ** BigInt(decimals)))
     .toString()
     .padStart(decimals, '0')
     .slice(0, decimals)

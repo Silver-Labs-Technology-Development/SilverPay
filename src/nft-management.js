@@ -1,6 +1,9 @@
 // NFT Management for SilverPay
 // Handles ERC-721 and ERC-1155 NFT reading and display
 
+import { BrowserProvider, ethers } from 'ethers'
+import { networks, defaultNetworkId } from './networks.js'
+
 /**
  * Read NFT metadata from a contract
  * @param {string} nftContractAddress - NFT contract address
@@ -8,7 +11,7 @@
  * @returns {Promise<Object>} NFT metadata
  */
 export async function readNFTMetadata(nftContractAddress, tokenId) {
-  const network = getNetwork()
+  const network = networks[defaultNetworkId]
   if (!nftContractAddress || !tokenId || network.family !== 'evm') {
     return { 
       name: '', 
@@ -42,7 +45,9 @@ export async function readNFTMetadata(nftContractAddress, tokenId) {
           nftContract.symbol(),
           nftContract.tokenURI(tokenId),
         ])
-        const balance = await nftContract.balanceOf(address)
+        const signer = await provider.getSigner()
+        const owner = await signer.getAddress()
+        const balance = await nftContract.balanceOf(owner)
         
         // Fetch metadata from IPFS/HTTP URL
         let metadata = {}
@@ -78,7 +83,9 @@ export async function readNFTMetadata(nftContractAddress, tokenId) {
             nftContract.symbol(),
             nftContract.uri(tokenId),
           ])
-          const balance = await nftContract.balanceOf(address, tokenId)
+          const signer = await provider.getSigner()
+          const owner = await signer.getAddress()
+          const balance = await nftContract.balanceOf(owner, tokenId)
           
           // Fetch metadata
           let metadata = {}
@@ -161,7 +168,6 @@ export async function validateNFTContract(address) {
       // Try to read name function (present in both ERC-721 and ERC-1155)
       try {
         const abi = ['function name() view returns (string)']
-        const { ethers } = require('/home/user/Silver-Labs/SilverForge-Studio/node_modules/ethers/dist/ethers.js')
         const nftContract = new ethers.Contract(address, abi, provider)
         const name = await nftContract.name()
         return name && name !== ''
