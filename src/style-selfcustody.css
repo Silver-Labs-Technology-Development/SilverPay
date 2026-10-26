@@ -1,0 +1,258 @@
+/* SilverPay Self-Custody Styles - Silver Labs Identity */
+
+:root {
+  --bg-primary: #0a0a0a;
+  --bg-secondary: #111111;
+  --bg-card: #141414;
+  --border: #2a2a2a;
+  --text-primary: #ffffff;
+  --text-secondary: #a0a0a0;
+  --text-muted: #666666;
+  --silver: #c0c0c0;
+  --silver-light: #e0e0e0;
+  --gold: #c9a84c;
+  --gold-hover: #d4b55a;
+  --error: #ff4444;
+  --success: #44ff44;
+  --warning: #ffaa00;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  background: linear-gradient(180deg, var(--bg-primary) 0%, #050505 100%);
+  color: var(--text-primary);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+/* Onboarding */
+.onboarding {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.onboarding-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  max-width: 500px;
+  width: 100%;
+  padding: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+}
+
+.onboarding-wide {
+  max-width: 700px;
+}
+
+.brand-large {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.brand-mark-large {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, var(--silver) 0%, var(--silver-light) 100%);
+  color: var(--bg-primary);
+  font-size: 2rem;
+  font-weight: bold;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.brand-large h1 {
+  margin: 0;
+  font-size: 2rem;
+  color: var(--silver-light);
+}
+
+.tagline-large {
+  color: var(--gold);
+  margin: 0.5rem 0;
+  font-size: 1.1rem;
+}
+
+.onboarding-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin: 2rem 0;
+}
+
+.btn {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: all 0.2s;
+}
+
+.btn:hover:not(:disabled) {
+  background: var(--bg-card);
+  border-color: var(--silver);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: linear-gradient(180deg, var(--gold) 0%, #b8943c 100%);
+  color: var(--bg-primary);
+  border-color: var(--gold);
+  font-weight: 600;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: linear-gradient(180deg, var(--gold-hover) 0%, var(--gold) 100%);
+  border-color: var(--gold-hover);
+}
+
+.btn-large {
+  padding: 1rem 1.5rem;
+  font-size: 1rem;
+}
+
+.btn-full {
+  width: 100%;
+}
+
+.btn-quiet {
+  background: transparent;
+  border-color: transparent;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+label {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+input[type="text"],
+input[type="password"],
+textarea {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  padding: 0.75rem;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  font-family: inherit;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--gold);
+}
+
+textarea {
+  resize: vertical;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9rem;
+}
+
+.row {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: space-between;
+}
+
+.warning {
+  background: rgba(255, 170, 0, 0.1);
+  border: 1px solid var(--warning);
+  color: var(--warning);
+  padding: 1rem;
+  border-radius: 4px;
+  margin: 1rem 0;
+}
+
+.mnemonic-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+
+.mnemonic-word {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+
+.mnemonic-number {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  min-width: 20px;
+}
+
+.mnemonic-text {
+  color: var(--silver-light);
+  font-family: 'Courier New', monospace;
+}
+
+.backup-checks {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin: 1.5rem 0;
+}
+
+.backup-checks label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+.error {
+  color: var(--error);
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+.hint {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+h2 {
+  color: var(--silver-light);
+  margin-top: 0;
+}
